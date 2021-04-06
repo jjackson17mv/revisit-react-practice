@@ -1,10 +1,12 @@
-import "./App.css";
+import { useState } from "react";
 import Header from './components/Header';
 import Tasks from './components/Tasks';
-import { useState } from "react";
+import AddTask from './components/AddTask';
+import "./App.css";
+
 
 const App = () => {
-  const [tasks, setTasks] = useState([
+  const [tasks, setTasks,] = useState([
     {
       id: 1,
       text: "Doctors Appointment",
@@ -23,24 +25,31 @@ const App = () => {
       day: "Feb 7th at 4:00pm",
       reminder: false,
     },
-  ]); 
+  ]);
+
+  //Add task
+  const addTask = (task) => {
+    console.log(task)
+  }
+
+
 
   //Delete task
   const deleteTask = (id) => {
-    setTasks(tasks.filter((task)=> task.id !==id))
+    setTasks(tasks.filter((task) => task.id !== id))
   }
 
-  const toggleReminder =(id) => {
-    console.log(id)
+  const toggleReminder = (id) => {
+    setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder } : task))
   }
 
   return (
     <div className="container">
-     <Header/>
-     {tasks.length > 0 ?<Tasks tasks ={tasks} onDelete= {deleteTask} onToggle={toggleReminder}/> : 'NO TASK TO SHOW'}
+      <Header />
+      <AddTask onAdd={addTask} />
+      {tasks.length > 0 ? (<Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />) : ('NO TASK TO SHOW')}
     </div>
   );
 }
 
 export default App;
- 
